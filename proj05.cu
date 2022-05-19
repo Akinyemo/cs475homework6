@@ -110,6 +110,7 @@ MonteCarlo( IN float *dtxs, IN float *dtys, IN float *dtxvs, IN float *dsvs, IN 
 	float sv   = dsvs[gid];
 	float sth   = dsths[gid];
 	float halflen   = dhalflens[gid];
+	float sthr = Radians(sth);
 	float svx  = sv * cos(sthr);
         float svy  = sv * sin(sthr);
 	float t = ty/svy;
@@ -176,12 +177,12 @@ main( int argc, char* argv[ ] )
 	// copy host memory to the device:
 
 	cudaMemcpy( dtxs,  htxs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
-	cudaMemcpy( dtys,  htxs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
-	cudaMemcpy( dtxvs,  htxs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
-	cudaMemcpy( dtsvs,  htxs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
-	cudaMemcpy( dsths,  htxs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
+	cudaMemcpy( dtys,  htys,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
+	cudaMemcpy( dtxvs,  htxvs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
+	cudaMemcpy( dtsvs,  hsvs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
+	cudaMemcpy( dsths,  hsths,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
 	cudaMemcpy( dhalflens,  htxs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
-	cudaMemcpy( dhits,  htxs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
+	cudaMemcpy( dhits,  hhalflens,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
 	CudaCheckError( );
 
 	// setup the execution parameters:
