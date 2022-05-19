@@ -122,6 +122,7 @@ MonteCarlo( IN float *dtxs, IN float *dtys, IN float *dtxvs, IN float *dsvs, IN 
 	if(fabs(sbx-truckx) < halflen )
 	{
 		dhits[gid] = 1;
+		fprintf( stderr, "Hits the truck at time = %8.3f\n", t );
 	}
 }
 
@@ -234,7 +235,7 @@ main( int argc, char* argv[ ] )
 
 	int numHits = 0;
 	for(int i = 0;i<NUMTRIALS;i++){
-		if(hhits[i]==1){
+		if(hhits[i] === 1){
 			numHits++;
 		}
 	}
