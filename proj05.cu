@@ -28,7 +28,7 @@
 
 
 // ranges for the random numbers:
-#define PROJECT1
+//#define PROJECT1
 
 #ifdef PROJECT1
 const float TXMIN =	-10.0;	// truck starting location in feet
@@ -112,17 +112,16 @@ MonteCarlo( IN float *dtxs, IN float *dtys, IN float *dtxvs, IN float *dsvs, IN 
 	float halflen   = dhalflens[gid];
 	float sthr = Radians(sth);
 	float svx  = sv * cos(sthr);
-        float svy  = sv * sin(sthr);
+    float svy  = sv * sin(sthr);
 	float t = ty/svy;
 	float truckx = tx + txv * t;
 	float sbx = svx * t;
 
 	// how long until the snowball reaches the y depth:
-	
+
 	if(fabs(sbx-truckx) < halflen )
 	{
 		dhits[gid] = 1;
-		fprintf( stderr, "Hits the truck at time = %8.3f\n", t );
 	}
 }
 
@@ -136,7 +135,7 @@ main( int argc, char* argv[ ] )
 
 	int dev = findCudaDevice(argc, (const char **)argv);
 
-	
+
 	float *htxs  = new float [NUMTRIALS];
 	float *htys  = new float [NUMTRIALS];
 	float *htxvs = new float [NUMTRIALS];
@@ -182,8 +181,7 @@ main( int argc, char* argv[ ] )
 	cudaMemcpy( dtxvs,  htxvs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
 	cudaMemcpy( dsvs,  hsvs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
 	cudaMemcpy( dsths,  hsths,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
-	cudaMemcpy( dhalflens,  htxs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
-	cudaMemcpy( dhits,  hhalflens,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
+	cudaMemcpy( dhalflens,  hhalflens,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
 	CudaCheckError( );
 
 	// setup the execution parameters:
@@ -235,11 +233,11 @@ main( int argc, char* argv[ ] )
 
 	int numHits = 0;
 	for(int i = 0;i<NUMTRIALS;i++){
-		if(hhits[i] === 1){
+		if(hhits[i] == 1){
 			numHits++;
 		}
 	}
-	fprintf(stderr,"NumHits:%10d\n",numHits);
+	//fprintf(stderr,"NumHits:%10d\n",numHits);
 	float probability = 100.f * (float)numHits / (float)NUMTRIALS;
 
 	// compute and printL
@@ -247,9 +245,11 @@ main( int argc, char* argv[ ] )
 	double secondsTotal = 0.001 * (double)msecTotal;
 	double trialsPerSecond = (float)NUMTRIALS / secondsTotal;
 	double megaTrialsPerSecond = trialsPerSecond / 1000000.;
-	fprintf( stderr, "Number of Trials = %10d, Blocksize = %8d, MegaTrials/Second = %10.4lf, Probability = %6.2f%%\n",
-		NUMTRIALS, BLOCKSIZE, megaTrialsPerSecond, probability );
+	//fprintf( stderr, "Number of Trials = %10d, Blocksize = %8d, MegaTrials/Second = %10.4lf, Probability = %6.2f%%\n",
+	//	NUMTRIALS, BLOCKSIZE, megaTrialsPerSecond, probability );
 
+	fprintf( stderr, "%10d,%8d,%10.4lf,%6.2f%%\n",
+		NUMTRIALS, BLOCKSIZE, megaTrialsPerSecond, probability );
 	// clean up memory:
 	delete [ ] htxs;
 	delete [ ] htys;
