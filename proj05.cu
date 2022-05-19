@@ -179,7 +179,7 @@ main( int argc, char* argv[ ] )
 	cudaMemcpy( dtxs,  htxs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
 	cudaMemcpy( dtys,  htys,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
 	cudaMemcpy( dtxvs,  htxvs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
-	cudaMemcpy( dtsvs,  hsvs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
+	cudaMemcpy( dsvs,  hsvs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
 	cudaMemcpy( dsths,  hsths,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
 	cudaMemcpy( dhalflens,  htxs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
 	cudaMemcpy( dhits,  hhalflens,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
