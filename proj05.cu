@@ -105,11 +105,18 @@ MonteCarlo( IN float *dtxs, IN float *dtys, IN float *dtxvs, IN float *dsvs, IN 
 
 	// randomize everything:
 	float tx   = dtxs[gid];
-	?????
+	float ty   = dtys[gid];
+	float xv   = dtxvs[gid];
+	float sv   = dsvs[gid];
+	float sth   = dsths[gid];
+	float halflen   = dhalflens[gid];
+	float t = ty/svy;
+	float truckx = tx + txv * t;
+	float sbx = svx * t;
 
 	// how long until the snowball reaches the y depth:
-	?????
-	if( ????? )
+	
+	if(fabs(sbx-truckx) < halflen )
 	{
 		dhits[gid] = 1;
 	}
@@ -154,17 +161,26 @@ main( int argc, char* argv[ ] )
 
 	//cudaError_t status;
 	cudaMalloc( (void **)(&dtxs),   NUMTRIALS*sizeof(float) );
+	cudaMalloc( (void **)(&dtys),   NUMTRIALS*sizeof(float) );
+	cudaMalloc( (void **)(&dtxvs),   NUMTRIALS*sizeof(float) );
+	cudaMalloc( (void **)(&dsvs),   NUMTRIALS*sizeof(float) );
+	cudaMalloc( (void **)(&dsths),   NUMTRIALS*sizeof(float) );
+	cudaMalloc( (void **)(&dhalflens),   NUMTRIALS*sizeof(float) );
+	cudaMalloc( (void **)(&dhits),   NUMTRIALS*sizeof(int) );
 	CudaCheckError( );
 
-	?????
 
 
 	// copy host memory to the device:
 
 	cudaMemcpy( dtxs,  htxs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
+	cudaMemcpy( dtys,  htxs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
+	cudaMemcpy( dtxvs,  htxs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
+	cudaMemcpy( dtsvs,  htxs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
+	cudaMemcpy( dsths,  htxs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
+	cudaMemcpy( dhalflens,  htxs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
+	cudaMemcpy( dhits,  htxs,  NUMTRIALS*sizeof(float), cudaMemcpyHostToDevice );
 	CudaCheckError( );
-
-	?????
 
 	// setup the execution parameters:
 
@@ -214,7 +230,9 @@ main( int argc, char* argv[ ] )
 	// compute the sum :
 
 	int numHits = 0;
-	????
+	for(int i = 0;i<NUMTRIALS;i++){
+		numHits += hhits[i]; 
+	}
 
 	float probability = 100.f * (float)numHits / (float)NUMTRIALS;
 
