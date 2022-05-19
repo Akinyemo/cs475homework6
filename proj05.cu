@@ -234,7 +234,9 @@ main( int argc, char* argv[ ] )
 
 	int numHits = 0;
 	for(int i = 0;i<NUMTRIALS;i++){
-		numHits += hhits[i]; 
+		if(hhits[i]==1){
+			numHits++;
+		}
 	}
 	fprintf(stderr,"NumHits:%10d\n",numHits);
 	float probability = 100.f * (float)numHits / (float)NUMTRIALS;
