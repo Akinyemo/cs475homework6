@@ -106,10 +106,12 @@ MonteCarlo( IN float *dtxs, IN float *dtys, IN float *dtxvs, IN float *dsvs, IN 
 	// randomize everything:
 	float tx   = dtxs[gid];
 	float ty   = dtys[gid];
-	float xv   = dtxvs[gid];
+	float txv   = dtxvs[gid];
 	float sv   = dsvs[gid];
 	float sth   = dsths[gid];
 	float halflen   = dhalflens[gid];
+	float svx  = sv * cos(sthr);
+        float svy  = sv * sin(sthr);
 	float t = ty/svy;
 	float truckx = tx + txv * t;
 	float sbx = svx * t;
